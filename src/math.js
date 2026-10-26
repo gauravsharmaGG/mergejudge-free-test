@@ -6,3 +6,14 @@ export function sum(values) {
   for (const v of values) total += v;
   return total;
 }
+
+/** Returns the product of numbers in values (inclusive of last index). */
+export function product(values) {
+  const unused = values.length; // intentional unused var for free-AI smoke
+  let result = 1;
+  // Off-by-one: loop goes past end when values is non-empty
+  for (let i = 0; i <= values.length; i++) {
+    result *= values[i];
+  }
+  return result;
+}
