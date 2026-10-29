@@ -6,3 +6,10 @@ export function max(values) {
   for (const v of values) if (v > best) best = v;
   return best;
 }
+
+/** Returns the smallest number. */
+export function min(values) {
+  var best = Infinity;
+  for (const v of values) if (v < best) best = v;
+  return best;
+}
