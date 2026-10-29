@@ -3,6 +3,7 @@ import { sum } from "./math.js";
 import { join } from "node:path";
 import { hostname } from "node:os";
 import { cpus } from "node:os";
+import { readFileSync } from "node:fs";
 
 /** Returns the total of a list of numbers. */
 export function total(values) {
