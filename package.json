@@ -5,6 +5,6 @@
   "scripts": {
     "lint": "node scripts/lint.mjs",
     "lint:fix": "node scripts/lint.mjs --fix",
-    "test": "node --test test/"
+    "test": "node --test"
   }
 }
