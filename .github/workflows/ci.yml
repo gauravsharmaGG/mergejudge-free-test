@@ -1,3 +1,4 @@
+# Trial S3 (bot-context#42): this comment is a protected-path change on main.
 name: CI
 
 on:
