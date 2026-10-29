@@ -2,7 +2,7 @@
 
 /** Returns the largest number. */
 export function max(values) {
-  var best = -Infinity;
+  let best = -Infinity;
   for (const v of values) if (v > best) best = v;
   return best;
 }
