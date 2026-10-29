@@ -1,5 +1,5 @@
 # MergeJudge Shepherd live trial (bot-context#42). Copied from mergejudge-runner examples/shepherd-workflow.yml.
-# Pinned to runner main 158fcaa (no v1 retag yet). Needs repo variable SHEPHERD_APP_ID and secret SHEPHERD_APP_PRIVATE_KEY.
+# Re-trial: pinned to mergejudge-runner PR #37 head 7e413d3 (not merged, no retag). Needs repo variable SHEPHERD_APP_ID and secret SHEPHERD_APP_PRIVATE_KEY.
 #
 # Turn it on per PR with the comment `/mergejudge shepherd` or the `shepherd` label. It never merges.
 name: Shepherd
@@ -15,6 +15,10 @@ on:
   # A finished external status (a deploy preview, a third-party CI) lets Shepherd decide on a failure it was holding back
   # while checks were still pending. Pending statuses are ignored.
   status:
+  # The base branch moved: sweep shepherded PRs that became conflicting (GitHub never runs pull_request for a conflicting PR).
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 # contents: write to push fixes, pull-requests/issues for labels and comments,
 # checks and actions: read to see failures, actions: write only so Shepherd can re-run a failed job once to rule out a flaky test.
@@ -26,7 +30,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: shepherd-${{ github.event.pull_request.number || github.event.issue.number || github.event.workflow_run.head_branch || github.event.sha }}
+  group: shepherd-${{ github.event.pull_request.number || github.event.issue.number || github.event.workflow_run.pull_requests[0].number || github.event.check_suite.pull_requests[0].number || github.event.workflow_run.head_branch || github.event.sha || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -37,7 +41,8 @@ jobs:
       (github.event_name == 'issue_comment' && github.event.issue.pull_request) ||
       (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.head_repository.full_name == github.repository) ||
-      (github.event_name == 'status' && github.event.state != 'pending')
+      (github.event_name == 'status' && github.event.state != 'pending') ||
+      github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Require the Shepherd App credentials
         env:
@@ -52,7 +57,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: gauravsharmaGG/mergejudge-runner@158fcaa791c6af845a554f7a34bd548195d7412d
+      - uses: gauravsharmaGG/mergejudge-runner@7e413d336cbe0ae5621f69fe94a7336ecfdf6dfc
         with:
           mode: shepherd
           # GitHub App installation token so fix pushes re-trigger CI and Shepherd's own events are ignored (rule 7).
