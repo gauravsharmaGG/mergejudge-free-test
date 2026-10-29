@@ -1,2 +1,5 @@
 review:
   lane_map: true
+# Shepherd live trial (bot-context#42): a budget of 1 makes the retry-limit stop easy to reach.
+shepherd:
+  max_attempts: 1
