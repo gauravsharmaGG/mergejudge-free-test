@@ -1,2 +1,2 @@
 # mergejudge-free-test
-MergeJudge free tier test repo (dummy data)
+MergeJudge free tier test repo (dummy data). Base branch edit for trial S3.
