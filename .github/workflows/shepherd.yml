@@ -1,0 +1,68 @@
+# MergeJudge Shepherd live trial (bot-context#42). Copied from mergejudge-runner examples/shepherd-workflow.yml.
+# Pinned to runner main 158fcaa (no v1 retag yet). Needs repo variable SHEPHERD_APP_ID and secret SHEPHERD_APP_PRIVATE_KEY.
+#
+# Turn it on per PR with the comment `/mergejudge shepherd` or the `shepherd` label. It never merges.
+name: Shepherd
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [labeled, unlabeled, synchronize]
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  # A finished external status (a deploy preview, a third-party CI) lets Shepherd decide on a failure it was holding back
+  # while checks were still pending. Pending statuses are ignored.
+  status:
+
+# contents: write to push fixes, pull-requests/issues for labels and comments,
+# checks and actions: read to see failures, actions: write only so Shepherd can re-run a failed job once to rule out a flaky test.
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: read
+  actions: write
+
+concurrency:
+  group: shepherd-${{ github.event.pull_request.number || github.event.issue.number || github.event.workflow_run.head_branch || github.event.sha }}
+  cancel-in-progress: false
+
+jobs:
+  shepherd:
+    runs-on: ubuntu-latest
+    # Same-repo branches only: fork PRs never run Shepherd (no fork code is checked out and no secrets are exposed).
+    if: >-
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request) ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.head_repository.full_name == github.repository) ||
+      (github.event_name == 'status' && github.event.state != 'pending')
+    steps:
+      - name: Require the Shepherd App credentials
+        env:
+          APP_ID: ${{ vars.SHEPHERD_APP_ID }}
+          HAS_KEY: ${{ secrets.SHEPHERD_APP_PRIVATE_KEY != '' }}
+        run: |
+          if [ -z "$APP_ID" ] || [ "$HAS_KEY" != "true" ]; then
+            echo "::error::Set repo variable SHEPHERD_APP_ID and secret SHEPHERD_APP_PRIVATE_KEY (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+      # Check out the PR branch with full history. For comment events there is no PR ref, so Shepherd fetches the branch itself.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gauravsharmaGG/mergejudge-runner@158fcaa791c6af845a554f7a34bd548195d7412d
+        with:
+          mode: shepherd
+          # GitHub App installation token so fix pushes re-trigger CI and Shepherd's own events are ignored (rule 7).
+          app_id: ${{ vars.SHEPHERD_APP_ID }}
+          app_private_key: ${{ secrets.SHEPHERD_APP_PRIVATE_KEY }}
+          # Mechanical fixer for the lint job. If it changes files, that diff is the fix and no model is called.
+          shepherd_fix_command: npm run lint:fix
+          # Optional model for non-mechanical fixes. Without AI_API_KEY Shepherd only uses shepherd_fix_command.
+          provider: anthropic
+          model: claude-sonnet-4-20250514
+          api_key_env: AI_API_KEY
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}

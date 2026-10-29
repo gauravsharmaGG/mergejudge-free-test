@@ -1,0 +1,10 @@
+{
+  "name": "mergejudge-free-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "node scripts/lint.mjs",
+    "lint:fix": "node scripts/lint.mjs --fix",
+    "test": "node --test"
+  }
+}
