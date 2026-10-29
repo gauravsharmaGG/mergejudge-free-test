@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { hostname } from "node:os";
 import { cpus } from "node:os";
 import { platform } from "node:os";
+import { arch } from "node:os";
 
 /** Returns the total of a list of numbers. */
 export function total(values) {
