@@ -2,6 +2,7 @@
 import { sum } from "./math.js";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
+import { cpus } from "node:os";
 
 /** Returns the total of a list of numbers. */
 export function total(values) {
