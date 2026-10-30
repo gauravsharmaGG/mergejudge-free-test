@@ -21,10 +21,15 @@ jobs:
         env:
           GH_MODELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -sS -o /tmp/r.json -w 'http=%{http_code} type=%{content_type}\n' https://models.github.ai/inference/chat/completions \
-            -H "Content-Type: application/json" -H "Authorization: Bearer $GH_MODELS_TOKEN" \
-            -d '{"model":"openai/gpt-4.1-mini","max_tokens":50,"temperature":0,"response_format":{"type":"json_object"},"messages":[{"role":"system","content":"Reply in JSON."},{"role":"user","content":"Return {\"ok\":true}"}]}'
-          head -c 1500 /tmp/r.json; echo
+          B='{"model":"openai/gpt-4.1-mini","max_tokens":50,"messages":[{"role":"user","content":"Say hi"}]}'
+          for u in https://models.github.ai/inference/chat/completions https://models.github.ai/orgs/gauravsharmaGG/inference/chat/completions; do
+            echo "== $u"; curl -sS -L -o /tmp/r.json -w 'http=%{http_code} type=%{content_type} url=%{url_effective}\n' "$u" \
+              -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
+              -H "Content-Type: application/json" -H "Authorization: Bearer $GH_MODELS_TOKEN" -d "$B"; head -c 600 /tmp/r.json; echo
+          done
+          echo "== azure"; curl -sS -o /tmp/r.json -w 'http=%{http_code} type=%{content_type}\n' https://models.inference.ai.azure.com/chat/completions \
+            -H "Content-Type: application/json" -H "Authorization: Bearer $GH_MODELS_TOKEN" -d '{"model":"gpt-4o-mini","max_tokens":20,"messages":[{"role":"user","content":"Say hi"}]}'; head -c 600 /tmp/r.json; echo
+          getent hosts models.github.ai || true
       - uses: gauravsharmaGG/mergejudge-runner@709ac93386cea574053de08e698b91ac82e2af90
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
