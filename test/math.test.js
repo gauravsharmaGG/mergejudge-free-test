@@ -6,3 +6,7 @@ test("sum adds numbers", () => {
   assert.equal(sum([1, 2, 3]), 6);
   assert.equal(sum([]), 0);
 });
+
+test("sum skips values that are not finite numbers", () => {
+  assert.equal(sum([1, "2", NaN, Infinity, 3]), 4);
+});
