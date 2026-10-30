@@ -1,0 +1,28 @@
+# Temporary live trial of the new MergeJudge sticky layout (mergejudge-runner#29). Removed again after the trial.
+# AI via GitHub Models with the workflow token, so no extra secrets are needed.
+name: MergeJudge layout trial
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+  models: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gauravsharmaGG/mergejudge-runner@709ac93386cea574053de08e698b91ac82e2af90
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: openai-compatible
+          base_url: https://models.github.ai/inference
+          model: openai/gpt-4.1-mini
+          api_key_env: GH_MODELS_TOKEN
+        env:
+          GH_MODELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
