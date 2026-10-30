@@ -17,6 +17,14 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
+      - name: Probe GitHub Models (debug, prints no secrets)
+        env:
+          GH_MODELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sS -o /tmp/r.json -w 'http=%{http_code} type=%{content_type}\n' https://models.github.ai/inference/chat/completions \
+            -H "Content-Type: application/json" -H "Authorization: Bearer $GH_MODELS_TOKEN" \
+            -d '{"model":"openai/gpt-4.1-mini","max_tokens":50,"temperature":0,"response_format":{"type":"json_object"},"messages":[{"role":"system","content":"Reply in JSON."},{"role":"user","content":"Return {\"ok\":true}"}]}'
+          head -c 1500 /tmp/r.json; echo
       - uses: gauravsharmaGG/mergejudge-runner@709ac93386cea574053de08e698b91ac82e2af90
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
