@@ -1,0 +1,18 @@
+# Temporary: runs the runner flow-chart PR head (agent/mj-flowchart, bae0d55) on PRs. Removed after the live trial.
+# No AI key in this repo, so this run is rules-only (expected: no chart). The AI review comes from a local run.
+name: MergeJudge flow chart trial
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gauravsharmaGG/mergejudge-runner@bae0d55e740454f26b2818f41ea49b6730adcc21
+        with:
+          mode: triage
