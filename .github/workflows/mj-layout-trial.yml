@@ -17,7 +17,7 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - uses: gauravsharmaGG/mergejudge-runner@812177b147f009fb0361f60671ebb32b67505069
+      - uses: gauravsharmaGG/mergejudge-runner@709ac93386cea574053de08e698b91ac82e2af90
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: openai-compatible
