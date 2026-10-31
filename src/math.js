@@ -6,3 +6,7 @@ export function sum(values) {
   for (const v of values) total += v;
   return total;
 }
+export function clamp(value, min, max) {
+  if (min > max) throw new RangeError("min must not exceed max");
+  return Math.min(Math.max(value, min), max);
+}
