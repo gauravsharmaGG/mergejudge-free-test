@@ -5,6 +5,13 @@
   "scripts": {
     "lint": "node scripts/lint.mjs",
     "lint:fix": "node scripts/lint.mjs --fix",
-    "test": "node --test"
+    "test": "node --test",
+    "test:checkout": "node --test test/checkout.test.js",
+    "check": "npm run lint && npm test"
+  },
+  "version": "0.2.0",
+  "description": "Checkout fixture for MergeJudge reviews (dummy data).",
+  "engines": {
+    "node": ">=22"
   }
 }

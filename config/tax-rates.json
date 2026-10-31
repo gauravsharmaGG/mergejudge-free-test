@@ -1,0 +1,45 @@
+{
+  "DE": {
+    "standard": 0.19,
+    "reduced": 0.07
+  },
+  "AT": {
+    "standard": 0.2,
+    "reduced": 0.1
+  },
+  "FR": {
+    "standard": 0.2,
+    "reduced": 0.055
+  },
+  "NL": {
+    "standard": 0.21,
+    "reduced": 0.09
+  },
+  "IT": {
+    "standard": 0.22,
+    "reduced": 0.1
+  },
+  "ES": {
+    "standard": 0.21,
+    "reduced": 0.1
+  },
+  "BE": {
+    "standard": 0.21,
+    "reduced": 0.06
+  },
+  "PL": {
+    "standard": 0.23,
+    "reduced": 0.08
+  },
+  "CH": {
+    "standard": 0.081,
+    "reduced": 0.026
+  },
+  "GB": {
+    "standard": 0.2,
+    "reduced": 0.05
+  },
+  "US": {
+    "standard": 0
+  }
+}

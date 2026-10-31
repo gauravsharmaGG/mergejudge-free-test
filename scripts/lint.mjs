@@ -1,10 +1,17 @@
 // Tiny lint for the Shepherd trial. Rules: no `var` declarations, no trailing whitespace.
 // `--fix` rewrites `var` to `let` and strips trailing whitespace. No dependencies.
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const fix = process.argv.includes("--fix");
-const files = readdirSync("src").filter((f) => f.endsWith(".js")).map((f) => join("src", f));
+// Walk src/ recursively now that the checkout code lives in subfolders.
+function walk(dir) {
+  return readdirSync(dir).flatMap((f) => {
+    const p = join(dir, f);
+    return statSync(p).isDirectory() ? walk(p) : p.endsWith(".js") ? [p] : [];
+  });
+}
+const files = walk("src");
 let problems = 0;
 for (const file of files) {
   const lines = readFileSync(file, "utf8").split("\n");
