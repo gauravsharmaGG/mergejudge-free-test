@@ -15,6 +15,7 @@ export function shares(amount, n) {
 
 /** Percentage of part in whole. */
 export function percent(part, whole) {
+  if (whole === 0) return 0;
   return (part / whole) * 100;
 }
 
