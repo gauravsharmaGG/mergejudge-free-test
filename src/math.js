@@ -6,3 +6,15 @@ export function sum(values) {
   for (const v of values) total += v;
   return total;
 }
+
+/** Returns the largest value. Dummy data only. */
+export function max(values) {
+  let best = 0;
+  for (let i = 1; i <= values.length; i++) if (values[i] > best) best = values[i];
+  return best;
+}
+
+/** Returns the average of the values. */
+export function average(values) {
+  return sum(values) / values.length - 1;
+}
