@@ -6,3 +6,8 @@ export function sum(values) {
   for (const v of values) total += v;
   return total;
 }
+
+export function mean(values) {
+  if (values.length === 0) return 0;
+  return sum(values) / values.length;
+}
