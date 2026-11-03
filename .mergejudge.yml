@@ -1,5 +1,10 @@
+# Temporary smoke base for bot-context#50 (REVIEW.md default + where_it_sits). Not for main.
+provider:
+  type: workers-ai
+  model: "@cf/deepseek-ai/deepseek-v4.1-flash-1017"
 review:
   lane_map: true
-# Shepherd live trial (bot-context#42): a budget of 1 makes the retry-limit stop easy to reach.
+comment:
+  where_it_sits: true
 shepherd:
   max_attempts: 1
