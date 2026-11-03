@@ -1,0 +1,29 @@
+# Temporary live check of mergejudge-runner#46 (answer every finding + round cap), bot-context#50.
+# Lives only on the temp base branch agent/bc50-ans-base; deleted after the check. AI via GitHub Models with the workflow token.
+name: MergeJudge answers trial
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [agent/bc50-ans-base]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+  models: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gauravsharmaGG/mergejudge-runner@d154a816652702a4998395a38ea9980f56d2e1d1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: openai-compatible
+          base_url: https://models.github.ai/inference
+          model: openai/gpt-4.1-mini
+          api_key_env: GH_MODELS_TOKEN
+        env:
+          GH_MODELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}

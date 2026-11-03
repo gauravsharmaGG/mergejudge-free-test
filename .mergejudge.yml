@@ -1,5 +1,8 @@
 review:
   lane_map: true
+  # Live check of mergejudge-runner#46 (bot-context#50), temp base branch only.
+  answer_findings: true
+  max_rounds: 2
 # Shepherd live trial (bot-context#42): a budget of 1 makes the retry-limit stop easy to reach.
 shepherd:
   max_attempts: 1
