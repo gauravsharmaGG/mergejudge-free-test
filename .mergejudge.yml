@@ -1,5 +1,8 @@
 review:
   lane_map: true
+  # Temp (bot-context#53, temp base branch only): answer gate + round cap for the mergejudge-fix live test.
+  answer_findings: true
+  max_rounds: 3
 # Shepherd live trial (bot-context#42): a budget of 1 makes the retry-limit stop easy to reach.
 shepherd:
   max_attempts: 1
