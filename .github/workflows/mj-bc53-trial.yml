@@ -22,7 +22,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: zai
-          model: glm-4.6
+          model: glm-5.3
           api_key_env: AI_API_KEY
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
