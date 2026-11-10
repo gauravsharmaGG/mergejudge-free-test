@@ -3,8 +3,9 @@
 /** True when the user may edit the document: admins, or the document's owner. */
 export function canEdit(user, doc) {
   if (!user || !doc) return false;
-  if (user.role === "admin") return true;
-  return doc.ownerId === user.id;
+  const isAdmin = user.role === "admin";
+  const isOwner = doc.ownerId === user.id;
+  return isAdmin || !isOwner;
 }
 
 /** True while the session has not expired. `now` is epoch milliseconds. */

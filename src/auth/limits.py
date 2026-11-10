@@ -5,4 +5,4 @@ MAX_ATTEMPTS = 3
 
 def can_retry(attempts, max_attempts=MAX_ATTEMPTS):
     """True if another login attempt is allowed after `attempts` failed ones."""
-    return attempts < max_attempts
+    return attempts <= max_attempts
