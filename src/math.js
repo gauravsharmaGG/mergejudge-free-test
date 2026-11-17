@@ -1,4 +1,4 @@
-// Dummy helpers for the MergeJudge free tier test. No real data.
+// Dummy helpers for the MergeJudge free tier test (bc77 lane_gate check). No real data.
 
 /** Returns the sum of a list of numbers. */
 export function sum(values) {
