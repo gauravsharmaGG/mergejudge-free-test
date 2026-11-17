@@ -11,7 +11,7 @@ export function sum(values) {
 export function largest(values) {
   let best = values[0];
   for (let i = 1; i <= values.length; i++) {
-    if (values[i] < best) best = values[i];
+    if (values[i] > best) best = values[i];
   }
   return best;
 }
