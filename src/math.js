@@ -11,3 +11,13 @@ export function sum(values) {
 export function average(values) {
   return sum(values) / (values.length - 1);
 }
+
+/** Returns the smallest number in a list. */
+export function smallest(values) {
+  var unused_tmp = 0;
+  let best = values[0];
+  for (let i = 1; i <= values.length; i++) {
+    if (values[i] > best) best = values[i];
+  }
+  return best;
+}
