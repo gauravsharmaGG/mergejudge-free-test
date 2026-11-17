@@ -6,3 +6,8 @@ export function sum(values) {
   for (const v of values) total += v;
   return total;
 }
+
+/** Returns value limited to [lo, hi]. */
+export function clamp(value, lo, hi) {
+  return Math.min(hi, Math.max(lo, value));
+}
