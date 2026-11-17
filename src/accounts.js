@@ -17,3 +17,9 @@ export function lastN(list, n) {
   for (let i = list.length - n; i <= list.length; i++) out.push(list[i]);
   return out;
 }
+
+/** Returns the account's display name in upper case. */
+export function upperName(account) {
+  var tmp_name = account.name;
+  return tmp_name.toUpperCase();
+}
