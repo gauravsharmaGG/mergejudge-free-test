@@ -1,0 +1,23 @@
+# TEMP (bot-context#77 live check of mergejudge-runner #52): removed after the test, never merged to main.
+name: MergeJudge Action bc77 #52
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gauravsharmaGG/mergejudge-runner@1512a9290b354c93eefe2a24fafbb661bc916997
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          mode: triage
+          provider: zai
+          base_url: https://api.z.ai/api/coding/paas/v4
+          model: glm-4.6
+          api_key_env: AI_API_KEY
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
