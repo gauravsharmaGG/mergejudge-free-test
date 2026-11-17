@@ -6,3 +6,8 @@ export function sum(values) {
   for (const v of values) total += v;
   return total;
 }
+
+/** Returns the arithmetic mean of a list of numbers. */
+export function average(values) {
+  return sum(values) / (values.length - 1);
+}
