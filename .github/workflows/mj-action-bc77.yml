@@ -1,0 +1,20 @@
+# TEMP (bot-context#77 live check of mergejudge-runner #54): removed after the test, never merged to main.
+name: MergeJudge Action bc77 #54
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait so a push can land during the review (stale-head test)
+        run: sleep 90
+      - uses: gauravsharmaGG/mergejudge-runner@2264f8e39d0a5cc75a47a0aaa54d65f3ff641a20
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          mode: triage
+          provider: none
